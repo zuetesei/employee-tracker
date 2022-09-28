@@ -1,0 +1,29 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "## Description  For this assignment, I built a content management system to manage a company's employee database. Employee Tracker is a command-line application built from scratch using Node.js, Inquirer, and MySQL.  The image below illustrates the database schema design: ![image](https://user-images.githubusercontent.com/107950028/192882961-5d2c542d-33cb-4be8-ad40-93156778fc64.png)",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zuetesei/employee-tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zuetesei/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/zuetesei/employee-tracker#readme",
+  "dependencies": {
+    "express": "^4.18.1",
+    "inquirer": "^8.2.4",
+    "mysql2": "^2.3.3"
+  },
+  "devDependencies": {
+    "jest": "^29.1.1"
+  }
+}
