@@ -294,15 +294,6 @@ function appMenu() {
                 appMenu();
             });
 
-            // DELETE A DEPARTMENT
-        } else if (answers.menu === 'Delete Department') {
-
-            // DELETE A ROLE
-        } else if (answers.menu === 'Delete Role') {
-
-            // DELETE AN EMPLOYEE
-        } else if (answers.menu === 'Delete Employee') {
-
             // EXIT MENU
         } else if (answers.menu === 'Exit') {
             db.end();
