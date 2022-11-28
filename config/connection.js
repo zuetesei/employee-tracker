@@ -10,8 +10,4 @@ const db = mysql.createConnection(
     console.log('Welcome to the Employee Tracker! You are now connected to the election database.')
 );
 
-db.connect((err) => {
-    if (err) throw err;
-});
-
 module.exports = db;
