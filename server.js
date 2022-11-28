@@ -24,35 +24,45 @@ function appMenu() {
             'Add a Department',
             'Add a Role',
             'Add an Employee',
-            // 'Update Employee Role',
+            'Update an Employee Role',
+            'View Budget',
             // 'Delete Employee',
             // 'Delete Department',
             // 'Delete Role',
             'Exit'
         ]
     }]).then((answers) => {
-        if (answers.prompt === 'View All Departments') {
+        // console.log(answers);
+
+        // VIEW ALL DEPARTMENTS 
+        if (answers.menu === 'View All Departments') {
             db.query(`SELECT * FROM department`, (err, result) => {
                 if (err) throw (err)
                 console.log('Viewing All Departments: ');
                 console.table(result);
                 appMenu();
             });
-        } else if (answers.prompt === 'View All Roles') {
+
+            // VIEW ALL ROLES 
+        } else if (answers.menu === 'View All Roles') {
             db.query(`SELECT * FROM role`, (err, result) => {
                 if (err) throw (err)
                 console.log('Viewing All Roles: ');
                 console.table(result);
                 appMenu();
             });
-        } else if (answers.prompt === 'View All Employees') {
+
+            // VIEW ALL EMPLOYEES 
+        } else if (answers.menu === 'View All Employees') {
             db.query(`SELECT * FROM employee`, (err, result) => {
                 if (err) throw (err)
                 console.log('Viewing All Employees: ');
                 console.table(result);
                 appMenu();
             });
-        } else if (answers.prompt === 'Add a Department') {
+
+            // ADD DEPARTMENT
+        } else if (answers.menu === 'Add a Department') {
             inquirer.prompt([{
                 type: 'input',
                 name: 'department',
@@ -72,7 +82,9 @@ function appMenu() {
                     appMenu();
                 });
             })
-        } else if (answers.prompt === 'Add a Role') {
+
+            // ADD ROLE
+        } else if (answers.menu === 'Add a Role') {
             db.query(`SELECT * FROM department`, (err, result) => {
                 if (err) throw err;
 
@@ -134,7 +146,8 @@ function appMenu() {
                 })
             });
 
-        } else if (answers.prompt === 'Add an Employeee') {
+            // ADD EMPLOYEE
+        } else if (answers.menu === 'Add an Employee') {
             db.query(`SELECT * FROM employee, role`, (err, result) => {
                 if (err) throw err;
 
@@ -210,7 +223,9 @@ function appMenu() {
                     });
                 })
             });
-        } else if (answers.prompt === 'Update an Employee Role') {
+
+            // UPDATE EMPLOYEE ROLE 
+        } else if (answers.menu === 'Update an Employee Role') {
             db.query(`SELECT * FROM employee, role`, (err, result) => {
                 if (err) throw err;
 
@@ -264,15 +279,36 @@ function appMenu() {
                     });
                 })
             });
-        } else if (answers.prompt === 'Exit') {
+
+            // VIEW DEPARTMENT BUDGETS
+        } else if (answers.menu === 'View Budget') {
+            console.log('Showing budget by department...\n');
+
+            db.query(`SELECT department_id AS id, 
+                      department.name AS department,
+                      SUM(salary) AS budget FROM role  
+                        JOIN department ON role.department_id = department.id GROUP BY  department_id`, (err, result) => {
+                if (err) throw err;
+                console.table(result);
+
+                appMenu();
+            });
+
+            // DELETE A DEPARTMENT
+        } else if (answers.menu === 'Delete Department') {
+
+            // DELETE A ROLE
+        } else if (answers.menu === 'Delete Role') {
+
+            // DELETE AN EMPLOYEE
+        } else if (answers.menu === 'Delete Employee') {
+
+            // EXIT MENU
+        } else if (answers.menu === 'Exit') {
             db.end();
             console.log('See you next time!');
         }
-
     });
 }
 
 
-// add functions
-// update functions
-// remove functions
