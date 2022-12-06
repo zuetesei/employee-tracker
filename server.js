@@ -314,7 +314,8 @@ function addEmployee() {
             }
         },
     ]).then(answer => {
-        const params = [answer.firstNameInput, answer.lastNameInput]
+        const params = [answer.firstname, answer.lastname]
+        console.log(params)
         db.query(`SELECT role.id, role.title FROM role`, (err, data) => {
             if (err) throw err;
 
