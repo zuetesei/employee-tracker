@@ -28,8 +28,8 @@ function appMenu() {
             'Add an Employee',
             'Update an Employee Role',
             'Remove Employee',
-            'Remove Department',
             'Remove Role',
+            'Remove Department',
             'Exit'
         ]
     }]).then((answers) => {
@@ -56,7 +56,7 @@ function appMenu() {
             //=========== View all Employees =========== //
         } else if (answers.menu === 'View All Employees') {
             db.query(`SELECT * FROM employee`, (err, result) => {
-                if (err) throw (err)
+                if (err) throw err
                 console.log('Viewing All Employees: ');
                 console.table(result);
                 appMenu();
@@ -72,7 +72,7 @@ function appMenu() {
                 });
 
             //=========== View Department Budgets =========== //
-        } else if (answers.menu === 'View Budget') {
+        } else if (answers.menu === 'View Department Budgets') {
             console.log('Showing budget by department...\n');
 
             db.query(`SELECT department_id AS id, 
@@ -81,7 +81,6 @@ function appMenu() {
                         JOIN department ON role.department_id = department.id GROUP BY  department_id`, (err, result) => {
                 if (err) throw err;
                 console.table(result);
-
                 appMenu();
             });
 
@@ -271,6 +270,27 @@ function appMenu() {
                     db.query(`DELETE FROM role WHERE id=?`, roleInput.role, (err, result) => {
                         if (err) throw err;
                         console.log('Role succesfully deleted.');
+                        appMenu();
+                    })
+                })
+            })
+
+        } else if (answers.menu === 'Remove Department') {
+            db.query(`SELECT * FROM department`, (err, data) => {
+                if (err) throw err;
+                const dept = data.map(({ name, id }) => ({ name: name, value: id }));
+
+                inquirer.prompt([
+                    {
+                        type: 'list',
+                        name: 'dept',
+                        message: "What department do you want to delete?",
+                        choices: dept
+                    }
+                ]).then(deptInput => {
+                    db.query(`DELETE FROM department WHERE id = ?`, deptInput.dept, (err, result) => {
+                        if (err) throw err;
+                        console.log('Department deleted.');
                         appMenu();
                     })
                 })
