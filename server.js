@@ -285,71 +285,76 @@ function appMenu() {
 }
 
 
-
-//================= Select Role Quieries Role Title for Add Employee Prompt ===========//
-var roleArr = [];
-function selectRole() {
-    db.query("SELECT * FROM role", function (err, res) {
-        if (err) throw err
-        for (var i = 0; i < res.length; i++) {
-            roleArr.push(res[i].title);
-        }
-
-    })
-    return roleArr;
-}
-//================= Select Role Quieries The Managers for Add Employee Prompt ===========//
-var managersArr = [];
-function selectManager() {
-    db.query("SELECT first_name, last_name FROM employee WHERE manager_id IS NULL", function (err, res) {
-        if (err) throw err
-        for (var i = 0; i < res.length; i++) {
-            managersArr.push(res[i].first_name);
-        }
-
-    })
-    return managersArr;
-}
-
 function addEmployee() {
     inquirer.prompt([
         {
             name: "firstname",
             type: "input",
-            message: "Enter their first name "
+            message: "Enter their first name: ",
+            validate: firstNameInput => {
+                if (firstNameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter employee's first name.");
+                    return false;
+                }
+            }
         },
         {
             name: "lastname",
             type: "input",
-            message: "Enter their last name "
+            message: "Enter their last name: ",
+            validate: lastNameInput => {
+                if (lastNameInput) {
+                    return true;
+                } else {
+                    console.log("Please enter employee's last name.");
+                    return false;
+                }
+            }
         },
-        {
-            name: "role",
-            type: "list",
-            message: "What is their role? ",
-            choices: selectRole()
-        },
-        {
-            name: "choice",
-            type: "rawlist",
-            message: "Whats their managers name?",
-            choices: selectManager()
-        }
-    ]).then(function (val) {
-        var roleId = selectRole().indexOf(val.role) + 1
-        var managerId = selectManager().indexOf(val.choice) + 1
-        db.query("INSERT INTO employee SET ?",
-            {
-                first_name: val.firstName,
-                last_name: val.lastName,
-                manager_id: managerId,
-                role_id: roleId
+    ]).then(answer => {
+        const params = [answer.firstNameInput, answer.lastNameInput]
+        db.query(`SELECT role.id, role.title FROM role`, (err, data) => {
+            if (err) throw err;
 
-            }, function (err) {
-                if (err) throw err
-                console.table(val)
-                appMenu()
+            const roles = data.map(({ id, title }) => ({ name: title, value: id }));
+
+            inquirer.prompt([
+                {
+                    type: 'list',
+                    name: 'role',
+                    message: "What is the employee's role?",
+                    choices: roles
+                }
+            ]).then(roleInput => {
+                const role = roleInput.role;
+                params.push(role);
+                db.query(`SELECT * FROM employee`, (err, data) => {
+                    if (err) throw err;
+
+                    const managers = data.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
+
+                    inquirer.prompt([
+                        {
+                            type: 'list',
+                            name: 'manager',
+                            message: "Who is the employee's manager?",
+                            choices: managers
+                        }
+                    ]).then(managerInput => {
+                        const manager = managerInput.manager;
+                        params.push(manager);
+
+                        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id)
+                        VALUES (?, ?, ?, ?)`, params, (err, result) => {
+                            if (err) throw err;
+                            console.log('Employee has been added!')
+                            appMenu();
+                        })
+                    })
+                })
             })
-
+        })
     })
 }
