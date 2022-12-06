@@ -1,7 +1,7 @@
 INSERT INTO department (name)
 VALUES
     ("Sales"),
-    ('"Legal"'),
+    ("Legal"),
     ("Marketing"),
     ("Finance"),
     ("Operations"),
@@ -23,7 +23,10 @@ VALUES
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
 VALUES
-    ("Yerba", "Mate", 1, 1),
-    ("Ginger", "Chai", 4, 1);
-    ("Sunsine", "Matters", 4, 1);
-    ("Apple", "Hill", 4, 1);
+    ("Yermia", "Mate", 1, null),
+    ("Ginger", "Wiley", 2, 1),
+    ("Jessica", "Haze", 3, null),
+    ("Dennis", "Jackson", 4, 1),
+    ("Jon", "Huy", 5, 1),
+    ("Cece", "Xong", 6, 1),
+    ("Wilhelmina", "Lorenzo", 7, null);
