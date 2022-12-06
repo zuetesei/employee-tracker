@@ -40,8 +40,11 @@ The image below illustrates the database schema design:
 **THEN** I am prompted to select an employee to update and their new role and this information is updated in the database <br>
 
 ## Screenshots 
+<img width="851" alt="Screen Shot 2022-12-06 at 11 58 55 AM" src="https://user-images.githubusercontent.com/107950028/206010581-a4943907-9c88-4a7b-b0ca-421e4901af6c.png">
+<img width="732" alt="Screen Shot 2022-12-06 at 11 59 10 AM" src="https://user-images.githubusercontent.com/107950028/206010594-25922d07-8b97-44f6-8644-12088697bed9.png">
 
 ## Video Walkthrough 
+https://watch.screencastify.com/v/kWXrawycrl0sswcTgNnG
 
 ## Credits
 Made with &hearts; by Zue. <br>
